@@ -2,17 +2,18 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const connectDB = require("./db/connect");
 
 const app = express();
 const port = 3000;
 
 // Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .catch((error) => console.error(error));
+// mongoose
+//   .connect(process.env.MONGO_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   })
+//   .catch((error) => console.error(error));
 
 // Define user schema
 const userSchema = new mongoose.Schema({
@@ -285,6 +286,14 @@ app.get("/", async (req, res) => {
   res.status(200).send("<h1>PiARS server deployed by Vuk Todorovic</h1>");
 });
 
-app.listen(port, () => {
-  console.log(`Server started on port ${port}...`);
-});
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(port, () => {
+      console.log(`Server started on port ${port}...`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+start();
