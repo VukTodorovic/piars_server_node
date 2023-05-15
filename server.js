@@ -281,6 +281,10 @@ app.get("/tasks/:list", async (req, res) => {
   res.json(tasks);
 });
 
+app.get("/", async (req, res) => {
+  res.satus(200).send("<h1>PiARS server deployed by Vuk Todorovic</h1>");
+});
+
 app.listen(port, () => {
   console.log(`Server started on port ${port}...`);
 });
