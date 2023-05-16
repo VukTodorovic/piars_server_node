@@ -225,6 +225,30 @@ app.post("/tasks", async (req, res) => {
 
 /**
 
+@api {post} /tasks Create Task
+@apiName CreateTask
+@apiGroup Task
+@apiParam {String} taskId Task's id.
+@apiParam {Boolean} done New value for "done" flag;
+@apiSuccess {Object[]} tasks List of all tasks for the given list.
+@apiSuccess {String} tasks._id Task's unique identifier.
+@apiSuccess {String} tasks.name Task's name.
+@apiSuccess {String} tasks.list List's unique identifier.
+@apiSuccess {Boolean} tasks.done Flag indicating if the task is done.
+@apiSuccess {String} tasks.taskId Task's unique identifier.
+
+*/
+
+app.put('/tasks', async (req, res) => {
+    const { taskId, done } = req.body; 
+    const response = await Task.findOneAndUpdate({taskId}, {$set: {done}}, {new: true});
+  
+    res.json(response);
+  
+});
+
+/**
+
 @api {delete} /tasks/:id Delete Task
 @apiName DeleteTask
 @apiGroup Task
